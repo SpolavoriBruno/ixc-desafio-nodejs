@@ -1,0 +1,31 @@
+{
+  "name": "ixcsoft-node-challenge-api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node -r dotenv/config  bin/api",
+    "start:single": "node -r dotenv/config  bin/worker",
+    "dev": "nodemon -r dotenv/config ./bin/api"
+  },
+  "engines": {
+    "node": "v18.17.1"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "helmet": "^7.0.0",
+    "http-errors": "~1.6.3",
+    "mongoose": "^7.4.2",
+    "morgan": "~1.9.1",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "loadtest": "^5.2.0",
+    "nodemon": "^3.0.1"
+  }
+}

@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+const cluster = require('cluster')
+
+if (cluster.isPrimary) {
+    const { availableParallelism } = require("os")
+    const totalCPUs = availableParallelism()
+    const clusterLog = console.log.bind(console, `[Cluster] - `)
+
+    clusterLog(`Number of CPUs is ${totalCPUs}`)
+    clusterLog(`Primary is running with PID ${process.pid}`)
+
+    for (let i = 0; i < totalCPUs; i++) {
+        cluster.fork()
+    }
+
+    cluster.on("exit", (worker, code) => {
+        const workerLog = console.log.bind(console, `[Worker ${worker.process.pid}] - `)
+        switch (code) {
+            case 0:
+                workerLog("Finished!")
+                break
+            case 2:
+                workerLog("Required environment variables are missing.")
+                break
+            default:
+                workerLog("Died...")
+                console.log("Starting new worker")
+                cluster.fork()
+                break
+        }
+    })
+} else {
+    delete cluster
+    require('./worker')
+}

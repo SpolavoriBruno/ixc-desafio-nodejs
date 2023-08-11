@@ -1,0 +1,39 @@
+version: "4"
+
+services:
+  api:
+    build: api
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://user:pass@mongodb:27017/ixc?authSource=admin
+      - PORT=4000
+    networks:
+      - backend
+      - frontend
+    ports:
+      - 4000:4000
+
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    networks:
+      - backend
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: pass
+
+  chat:
+    build: chat
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    ports:
+      - 3000:80
+    networks:
+      - frontend
+
+networks:
+  backend:
+  frontend:
