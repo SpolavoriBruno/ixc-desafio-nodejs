@@ -17,7 +17,10 @@ docker compose up -d
 
 Por padrão a aplicação está exposta no endereço `localhost:3000` e a API no endereço `localhost:4000` 
 
-Este comando executa uma instância do MongoDB usado para persistência da API
+Este comando executa três instâncias: 
+ - MongoDB, usado para persistência da API
+ - API, contruida em tempo de execução
+ - Chat, construido em tempode execução e servido com Nginx
 
 #### Comandos Auxiliares 
 ```
@@ -27,11 +30,11 @@ docker compose logs -f api
 # Acompanhar logs do Webserver
 docker compose logs -f chat
 
-# Parar aplicações
+# Parar todas aplicações
 docker compose down
 ```
 
-Para executar sem Docker siga as instruções contidas em cada repositório.
+* Para executar sem Docker siga as instruções contidas em cada repositório. *
 
 ### Variáveis de ambiente
 
