@@ -21,6 +21,9 @@ WORKDIR /usr/share/nginx/html
 # Remove Nginx defaults
 RUN rm -rf ./*
 
+# Forward all routes to Rect App
+RUN sed -i 's/index  index.html index.htm;/try_files $uri \/index.html;/g' /etc/nginx/conf.d/default.conf
+
 # Copy builded app from build container
 COPY --from=build /app/build .
 
