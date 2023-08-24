@@ -1,7 +1,8 @@
-import { Avatar, Button, Box, Container, Typography, TextField, Link } from "@mui/material";
-import { login } from "../services/userService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Avatar, Button, Box, Container, Typography, TextField, Link } from "@mui/material";
+
+import { login } from "../services/authService";
 
 function Login() {
     const navigate = useNavigate()

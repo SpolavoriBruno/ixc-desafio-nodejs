@@ -1,9 +1,13 @@
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Container, Grid } from "@mui/material"
+
 import ChatList from "../components/ChatList"
 import ChatWindow from "../components/ChatWindow"
 import NavBar from "../components/NavBar"
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { getUsers } from "../services/userService"
+import { getHistory } from "../services/messageService"
+
 export default function Chat() {
     const navigate = useNavigate()
     // [{id, name, online}]

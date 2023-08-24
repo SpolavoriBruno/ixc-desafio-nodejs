@@ -1,8 +1,9 @@
-import { Avatar, Button, Box, Container, Typography, TextField, Link } from "@mui/material";
-import { Add } from "@mui/icons-material";
-import { register } from "../services/userService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Add } from "@mui/icons-material";
+import { Avatar, Button, Box, Container, Typography, TextField, Link } from "@mui/material";
+
+import { register } from "../services/authService";
 
 function Register() {
     const navigate = useNavigate()
