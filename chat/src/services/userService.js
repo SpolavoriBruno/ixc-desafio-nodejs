@@ -1,23 +1,11 @@
-
-import axios from "axios"
-
+import axios from "./defaultService"
 
 const API_ENDPOINT = process.env.API_URL || "http://localhost:4000"
 
-export async function login({ username, password }) {
+export async function getUsers() {
     return (await axios({
-        data: { username, password },
-        method: "post",
-        url: `${API_ENDPOINT}/login`,
-        withCredentials: false
-    })).data
-}
-
-export async function register(user) {
-    return (await axios({
-        data: user,
-        method: "post",
+        method: "get",
         url: `${API_ENDPOINT}/user`,
-        withCredentials: false
+        withCredentials: true
     })).data
 }
