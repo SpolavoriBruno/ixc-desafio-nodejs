@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
-const mongoURI = process.env.MONGO_URI
+const { MONGO_URI } = process.env
 
-if(!mongoURI) process.exit(2)
+if (!MONGO_URI) process.exit(2)
 
-mongoose.connect(mongoURI)
+mongoose.connect(MONGO_URI)
 
 const db = mongoose.connection
 
