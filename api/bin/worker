@@ -2,7 +2,7 @@
 
 const http = require('http')
 const app = require('../src/api')
-const socket = require('../config/socket')
+const socket = require('../src/socket')
 
 console.log(`[Worker ${process.pid}] - New worker is running`)
 

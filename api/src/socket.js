@@ -13,7 +13,7 @@ module.exports = (server) => {
         clientLog(`${socket.id} connected`)
 
         // socket.emit('connect', `${socket.id} connected`)
-        
+
         socket.on('message', (data) => {
             clientLog("Message, recived", data)
             socket.broadcast.emit('message', data)
