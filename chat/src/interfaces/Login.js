@@ -13,11 +13,8 @@ function Login() {
         event.preventDefault()
         login(data)
             .then(data => {
-                if (data) {
-                    localStorage.setItem("id", data.id)
-                    localStorage.setItem("username", data.username)
-                    navigate('/chat')
-                }
+                if (data && data.id) navigate('/chat')
+                else setNotify(data.message)
             })
             .catch(data => setNotify(data.message))
     }
