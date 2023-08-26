@@ -27,8 +27,6 @@ services:
   chat:
     build: chat
     restart: unless-stopped
-    depends_on:
-      - mongodb
     ports:
       - 3000:80
     networks:

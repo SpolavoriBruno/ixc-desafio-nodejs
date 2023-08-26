@@ -1,6 +1,7 @@
-import { Send } from "@mui/icons-material"
+import { useEffect, useState, useRef } from "react"
 import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
+import { Send } from "@mui/icons-material"
+
 import { socket } from "../services/socketService"
 
 export default function ChatWindow(props) {
@@ -8,39 +9,30 @@ export default function ChatWindow(props) {
 
     const [input, setInput] = useState(props.input || "")
 
-    useEffect(() => {
-        socket.on('connect', console.log)
-        socket.on('disconnect', console.log)
-        socket.on('message', addMesage)
-        return () => {
-            socket.off('connect', console.log)
-            socket.off('disconnect', console.log)
-            socket.off('message', console.log)
-        }
-    }, [])
+    const scrollRef = useRef(null)
 
     useEffect(() => {
         if (props.messages) setMessages(props.messages)
         if (props.input) setInput(props.input)
+        scrollToBottom()
     }, [props])
 
     function handleInputChange(event) {
         setInput(event.target.value)
     }
 
-    function addMesage(message) {
-        setMessages(messages => [...messages, message])
+    function scrollToBottom() {
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }
 
     function handleSend(event) {
         event.preventDefault()
         const data = {
-            d: Date.now(),
-            text: input,
+            id: Date.now(),
+            content: input,
             user: localStorage.getItem('username'),
             chat: props.chat,
         }
-        addMesage(data)
         socket.timeout(5000).emit(`message`, data)
         setInput("")
     }
@@ -51,6 +43,7 @@ export default function ChatWindow(props) {
                 {messages.map(message => (
                     <Message key={message.id} message={message}></Message>
                 ))}
+                <div ref={scrollRef} style={{ margin: '3rem' }} />
             </Box>
             <Box component="form" onSubmit={handleSend} noValidate sx={{ p: 1, backgroundColor: "background.default" }}>
                 <Grid container spacing={2}>
@@ -68,11 +61,10 @@ export default function ChatWindow(props) {
 
 
 const Message = ({ message }) => {
-    console.log(localStorage.getItem('username'))
     const isOutMessage = () => message.user === localStorage.getItem('username')
     const activeMessageStyle = (prefix = "") => (prefix + (isOutMessage() ? "end" : "start"))
     return (
-        < Box sx={{
+        < Box key={message.id} sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: activeMessageStyle("flex-")
@@ -85,7 +77,7 @@ const Message = ({ message }) => {
                     ? "primary.light"
                     : "secondary.light",
             }}>
-                <Typography variant="body1">{message.text}</Typography>
+                <Typography variant="body1">{message.content}</Typography>
             </Paper>
         </Box >
     )

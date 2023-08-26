@@ -1,7 +1,8 @@
-import { Avatar, Button, Box, Container, Typography, TextField, Link } from "@mui/material";
-import { login } from "../services/userService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Avatar, Button, Box, Container, Typography, TextField, Link } from "@mui/material";
+
+import { login } from "../services/authService";
 
 function Login() {
     const navigate = useNavigate()
@@ -12,11 +13,8 @@ function Login() {
         event.preventDefault()
         login(data)
             .then(data => {
-                if (data) {
-                    localStorage.setItem("id", data.id)
-                    localStorage.setItem("username", data.username)
-                    navigate('/chat')
-                }
+                if (data && data.id) navigate('/chat')
+                else setNotify(data.message)
             })
             .catch(data => setNotify(data.message))
     }
