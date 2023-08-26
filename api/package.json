@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node -r dotenv/config  bin/api",
+    "start": "node -r dotenv/config  bin/cluster",
     "start:single": "node -r dotenv/config  bin/worker",
-    "dev": "nodemon -r dotenv/config ./bin/api"
+    "dev": "nodemon -r dotenv/config ./bin/cluster",
+    "dev:single": "nodemon -r dotenv/config  bin/worker"
   },
   "engines": {
     "node": "v18.17.1"

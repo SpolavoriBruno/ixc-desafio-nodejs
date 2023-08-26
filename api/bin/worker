@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const http = require('http')
-const app = require('../src/app') 
+const app = require('../src/api')
 const socket = require('../config/socket')
 
 console.log(`[Worker ${process.pid}] - New worker is running`)

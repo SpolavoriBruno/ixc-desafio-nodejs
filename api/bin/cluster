@@ -24,8 +24,8 @@ if (cluster.isPrimary) {
                 workerLog("Required environment variables are missing.")
                 break
             default:
-                workerLog("Died...")
-                console.log("Starting new worker")
+                workerLog(`Died with code ${code}...`)
+                clusterLog("Starting new worker")
                 cluster.fork()
                 break
         }
