@@ -1,6 +1,7 @@
-import { Send } from "@mui/icons-material"
+import { useEffect, useState, useRef } from "react"
 import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
+import { Send } from "@mui/icons-material"
+
 import { socket } from "../services/socketService"
 
 export default function ChatWindow(props) {
@@ -8,28 +9,20 @@ export default function ChatWindow(props) {
 
     const [input, setInput] = useState(props.input || "")
 
-    useEffect(() => {
-        socket.on('connect', console.debug)
-        socket.on('disconnect', console.debug)
-        socket.on('message', addMesage)
-        return () => {
-            socket.off('connect', console.debug)
-            socket.off('disconnect', console.debug)
-            socket.off('message', console.debug)
-        }
-    }, [])
+    const scrollRef = useRef(null)
 
     useEffect(() => {
         if (props.messages) setMessages(props.messages)
         if (props.input) setInput(props.input)
+        scrollToBottom()
     }, [props])
 
     function handleInputChange(event) {
         setInput(event.target.value)
     }
 
-    function addMesage(message) {
-        setMessages(messages => [...messages, message])
+    function scrollToBottom() {
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }
 
     function handleSend(event) {
@@ -50,6 +43,7 @@ export default function ChatWindow(props) {
                 {messages.map(message => (
                     <Message key={message.id} message={message}></Message>
                 ))}
+                <div ref={scrollRef} style={{ margin: '3rem' }} />
             </Box>
             <Box component="form" onSubmit={handleSend} noValidate sx={{ p: 1, backgroundColor: "background.default" }}>
                 <Grid container spacing={2}>
