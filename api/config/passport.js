@@ -1,6 +1,3 @@
-// https://www.youtube.com/watch?v=IUw_TgRhTBE
-
-const crypto = require('crypto')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 
@@ -18,19 +15,14 @@ passport.use("local", new LocalStrategy((username, password, done) => {
 }))
 
 passport.serializeUser((user, cb) => {
-    console.count('serializeUser')
     cb(null, user.id)
 })
 
 passport.deserializeUser((id, cb) => {
-    console.count('deserializeUser')
     User.findById(id)
         .then(user => cb(null, user))
         .catch(cb)
 })
 
-passport.local = {}
-passport.local.initialize = passport.initialize()
-passport.local.session = passport.session()
 
 module.exports = passport
