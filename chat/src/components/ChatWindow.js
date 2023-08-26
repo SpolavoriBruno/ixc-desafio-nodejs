@@ -9,13 +9,13 @@ export default function ChatWindow(props) {
     const [input, setInput] = useState(props.input || "")
 
     useEffect(() => {
-        socket.on('connect', console.log)
-        socket.on('disconnect', console.log)
+        socket.on('connect', console.debug)
+        socket.on('disconnect', console.debug)
         socket.on('message', addMesage)
         return () => {
-            socket.off('connect', console.log)
-            socket.off('disconnect', console.log)
-            socket.off('message', console.log)
+            socket.off('connect', console.debug)
+            socket.off('disconnect', console.debug)
+            socket.off('message', console.debug)
         }
     }, [])
 
@@ -35,12 +35,11 @@ export default function ChatWindow(props) {
     function handleSend(event) {
         event.preventDefault()
         const data = {
-            d: Date.now(),
-            text: input,
+            id: Date.now(),
+            content: input,
             user: localStorage.getItem('username'),
             chat: props.chat,
         }
-        addMesage(data)
         socket.timeout(5000).emit(`message`, data)
         setInput("")
     }
@@ -68,11 +67,10 @@ export default function ChatWindow(props) {
 
 
 const Message = ({ message }) => {
-    console.log(localStorage.getItem('username'))
     const isOutMessage = () => message.user === localStorage.getItem('username')
     const activeMessageStyle = (prefix = "") => (prefix + (isOutMessage() ? "end" : "start"))
     return (
-        < Box sx={{
+        < Box key={message.id} sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: activeMessageStyle("flex-")
@@ -85,7 +83,7 @@ const Message = ({ message }) => {
                     ? "primary.light"
                     : "secondary.light",
             }}>
-                <Typography variant="body1">{message.text}</Typography>
+                <Typography variant="body1">{message.content}</Typography>
             </Paper>
         </Box >
     )
